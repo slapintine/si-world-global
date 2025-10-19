@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SI World - Home</title>
+  <link rel="icon" type="image/x-icon" href="Images/icon/man1.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --brand: #ff5533;
+      --brand-dark: #ff7f29;           /* complements --brand */
+      --nav-bg: rgba(0,0,0,0.55);
+      --overlay: rgba(0,0,0,0.35);
+      --footer-bg: #11151c;
+      --footer-text: #dbe1ea;
+      --footer-muted: #9aa3af;
+      --footer-border: rgba(255,255,255,.08);
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
+    body{
+      margin:0;
+      font-family:"Poppins",sans-serif;
+      color:#fff;
+      background:#000;
+    }
+
+    /* Shared page container (not used for full-bleed sections) */
+    .container{ width:100%; max-width:1400px; margin:0 auto; padding:0 10%; }
+
+    /* NAVBAR */
+    nav{
+      position:fixed; inset:0 0 auto 0; height:75px;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 10%; background:var(--nav-bg); z-index:20;
+      backdrop-filter:saturate(120%) blur(6px);
+      -webkit-backdrop-filter:saturate(120%) blur(6px);
+    }
+    .logo{ height:40px; }
+    nav ul{ list-style:none; margin:0; padding:0; display:flex; gap:24px; }
+    nav a{
+      color:#fff; text-decoration:none; font-size:15px; font-weight:500;
+      letter-spacing:2px; text-transform:uppercase; padding:8px 16px; display:inline-block; transition:.2s;
+    }
+    nav a:hover{ color:var(--brand); border:1px solid #fff; border-radius:10px; }
+
+    /* HERO */
+    .hero{ position:relative; height:100vh; width:100%; overflow:hidden; }
+    .hero video{ position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:0; display:block; }
+    .hero::after{ content:""; position:absolute; inset:0; background:var(--overlay); z-index:1; }
+    .hero__content{
+      position:relative; z-index:2; height:100%;
+      display:flex; align-items:center; justify-content:center; flex-direction:column;
+      text-align:center; padding:0 6%;
+    }
+    .hero__title{ margin:0 0 12px; letter-spacing:3px; text-transform:uppercase;
+      font-size:clamp(2rem,6vw,4.5rem); line-height:1.05; font-weight:700; }
+    .hero__subtitle{ margin:0; font-weight:300; font-size:clamp(1rem,2.2vw,1.6rem); max-width:1000px; }
+
+    /* MAIN */
+    main{ background:#fff; color:#111; margin:0; padding:0; }
+    section{ margin:0; padding:0; }
+
+    /* SPLIT SECTIONS */
+    .split{ display:grid; grid-template-columns:45% 55%; grid-template-areas:"image content"; min-height:60vh; }
+    .split--reverse{ grid-template-areas:"content image"; }
+    .split__image{ grid-area:image; margin:0; padding:0; line-height:0; }
+    .split__image img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .split__content{
+      grid-area:content; background:#f8f8f8; color:#111; padding:80px 60px;
+      display:flex; flex-direction:column; justify-content:center;
+    }
+    .split__content h1{ font-size:2rem; font-weight:700; margin:0 0 20px; }
+    .split__content p{ font-size:1rem; line-height:1.6; margin:0 0 25px; }
+    .split__content .cta{ color:var(--brand); font-weight:600; text-decoration:none; }
+    .split__content .cta:hover{ text-decoration:underline; }
+
+    /* Anchor offset for fixed nav */
+    :target::before{ content:""; display:block; height:75px; margin-top:-75px; visibility:hidden; }
+
+    /* CTA band */
+    .cta-band{
+      background:linear-gradient(90deg,#d44300 0%, var(--brand-dark) 42%, var(--brand) 100%);
+      color:#fff; text-align:center; padding:clamp(32px,6vw,72px) 10%;
+    }
+    .cta-band .wrap{ max-width:1000px; margin:0 auto; }
+    .cta-band h2{ margin:0 0 10px; font-weight:700; font-size:clamp(1.8rem,4vw,2.6rem); }
+    .cta-band p{ margin:0; font-size:clamp(1rem,1.4vw,1.125rem); }
+    .cta-band a{ color:#fff; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:2px; }
+    .cta-band a:hover{ opacity:.9; }
+
+    /* WHY PARTNER */
+    .why-partner{ padding:48px 10% 56px; background:#fff; color:#111; }
+    .why-title{ font-size:clamp(1.6rem,3.6vw,2.2rem); font-weight:700; margin:0 0 18px; text-align:center; }
+    .why-grid{ display:grid; grid-template-columns:1fr 1fr; gap:16px 32px; }
+    .why-item{ display:flex; gap:12px; }
+    .why-num{
+      flex:0 0 36px; width:36px; height:36px; border-radius:50%;
+      background:var(--brand); color:#fff; font-weight:700;
+      display:flex; align-items:center; justify-content:center;
+    }
+    .why-text{ margin:0; line-height:1.7; }
+    .why-text b{ font-weight:700; }
+
+    /* ================= FULL-BLEED INSIGHTS (no side gutters) ================= */
+    .full-bleed{
+      width:100vw;
+      margin-left:calc(50% - 50vw);
+      margin-right:calc(50% - 50vw);
+      background:#fff;
+    }
+    .insights{ --g: clamp(14px,2vw,24px); }
+    .insights-kicker{
+      padding:22px 3vw 8px;
+      font-size:.9rem; letter-spacing:2px; text-transform:uppercase; color:#444;
+    }
+    .insights h2{
+      margin:0 0 16px; padding:0 3vw; font-weight:700;
+      font-size:clamp(1.6rem,3.6vw,2.2rem);
+    }
+    .insights-grid{
+      display:grid; grid-template-columns:repeat(12,minmax(0,1fr));
+      gap:var(--g); padding:0 3vw 24px;
+    }
+
+    /* Cards */
+    .insight-card,
+    .insight-card--feature{
+      background:#fff; border:none; border-radius:0; overflow:hidden;
+      display:flex; flex-direction:column;
+    }
+    .insight-media{ position:relative; width:100%; aspect-ratio:16/9; background:#eee; }
+    .insight-media img{ width:100%; height:100%; object-fit:cover; display:block; }
+
+    .insight-body{ padding:16px 12px 22px; }
+    .insight-date{ font-size:.85rem; color:#666; margin:0 0 6px; }
+    .insight-title{ margin:0; font-size:1.15rem; line-height:1.4; }
+    .insight-title a{ color:#111; text-decoration:none; }
+    .insight-title a:hover{ color:var(--brand); }
+
+    /* Layout sizes */
+    .insight-card{ grid-column:span 4; }
+    .insight-card--feature{ grid-column:span 8; position:relative; color:#fff; }
+    .insight-card--feature .insight-media{ aspect-ratio:21/9; }
+    .insight-card--feature .overlay{
+      position:absolute; inset:0;
+      background:linear-gradient(0deg, rgba(0,0,0,.65) 0%, rgba(0,0,0,.15) 55%, rgba(0,0,0,0) 80%);
+      display:flex; align-items:flex-end;
+    }
+    .insight-card--feature .overlay-inner{ padding:20px 22px 24px; }
+    .insight-card--feature .feature-date{ font-size:.9rem; opacity:.9; margin:0 0 6px; }
+    .insight-card--feature .feature-title{
+      margin:0; font-size:clamp(1.2rem,2.6vw,2rem); line-height:1.25; font-weight:700;
+    }
+    .insight-card--feature .feature-title a{ color:#fff; text-decoration:none; }
+
+    /* Read more bar (full-bleed, orange) */
+    .insights-more{
+      margin-top:0;
+      background:linear-gradient(90deg,#0f0f0f 0%, var(--brand-dark) 42%, var(--brand) 100%);
+      color:#fff; padding:14px 3vw; display:flex; justify-content:flex-end; align-items:center;
+    }
+    .insights-more a{
+      color:#fff; text-decoration:none; padding:8px 14px; border:1px solid rgba(255,255,255,.4); border-radius:9999px;
+    }
+    .insights-more a:hover{ background:rgba(255,255,255,.12); }
+
+    /* Footer */
+    footer.footer{ background:var(--footer-bg); color:var(--footer-text); }
+    .footer-top{ padding:56px 0; }
+    .footer-grid{ display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:40px; }
+    .footer-brand .footer-logo{ height:72px; margin-bottom:12px; filter:brightness(0) invert(1); }
+    .footer-brand p{ margin:8px 0; color:var(--footer-muted); }
+    .footer-heading{ font-size:14px; letter-spacing:2px; text-transform:uppercase; color:#fff; margin:6px 0 18px; }
+    .footer-links{ list-style:none; margin:0; padding:0; }
+    .footer-links li{ padding:10px 0 10px 18px; border-top:1px solid var(--footer-border); position:relative; }
+    .footer-links li:first-child{ border-top:0; }
+    .footer-links li::before{ content:"›"; position:absolute; left:0; top:10px; color:var(--brand); font-weight:700; }
+    .footer a{ color:#cfd6df; text-decoration:none; transition:color .15s; }
+    .footer a:hover{ color:var(--brand); }
+    .footer-bottom{ background:var(--brand); color:#fff; padding:12px 0; }
+    .bottom-row{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .socials{ list-style:none; display:flex; gap:14px; margin:0; padding:0; }
+    .socials a{ color:#fff; display:inline-flex; }
+    .socials a:hover{ opacity:.85; }
+    .socials svg{ width:20px; height:20px; display:block; }
+
+    /* Responsive tweaks */
+    @media (max-width:992px){
+      .split{ grid-template-columns:1fr 1fr; }
+      .split__content{ padding:48px 32px; }
+      .why-grid{ grid-template-columns:1fr; }
+      .insight-card{ grid-column:span 6; }
+      .insight-card--feature{ grid-column:span 12; }
+    }
+    @media (max-width:768px){
+      .split{ grid-template-columns:1fr; grid-template-areas:"image" "content"; }
+      .split--reverse{ grid-template-areas:"content" "image"; }
+      .split__content{ padding:40px 24px; }
+      .split__content h1{ font-size:1.6rem; }
+      .insight-card{ grid-column:span 12; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <img src="Images/icon/Siworld.png" alt="Strategic Information World logo" class="logo" />
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="Contact.html">Contact</a></li>
+      <li><a href="Services.html">Services</a></li>
+      <li><a class="active" href="About us.html">About us</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <header id="home" class="hero" role="banner" aria-label="Intro section with video background">
+    <video autoplay loop muted playsinline>
+      <source src="myvid.mp4" type="video/mp4" />
+    </video>
+    <div class="hero__content">
+      <h1 class="hero__title">Strategic Information World</h1>
+      <h2 class="hero__subtitle">“Shaping Africa's Resilience: Empowering Evidence-Led Adaptive Strategies”</h2>
+    </div>
+  </header>
+
+  <main>
+
+        <!-- Split 1: Strategic Planning -->
+    <section id="services" class="split">
+      <div class="split__image">
+        <img src="Images/main/collaboration.webp" alt="Strategic planning workshop" />
+      </div>
+      <div class="split__content">
+        <h1>Strategic Planning</h1>
+        <p>
+          We help leadership teams define clear visions, missions, and strategic objectives.
+          Our approach blends SWOT analysis, stakeholder mapping, and risk assessments so
+          every strategy is robust and responsive to emerging needs.
+        </p>
+        <a href="Services.html" class="cta">Explore strategic planning →</a>
+      </div>
+    </section>
+
+        <!-- Split 2: M&E Systems Development -->
+    <section class="split split--reverse">
+      <div class="split__content">
+        <h1>M&amp;E Systems Development</h1>
+        <p>
+          We design and refine monitoring &amp; evaluation frameworks, indicators, and tools
+          that capture quality data and drive informed decisions—keeping performance
+          information reliable, timely, and usable at every level of the organization.
+        </p>
+        <a href="Services.html" class="cta">Build stronger M&amp;E systems →</a>
+      </div>
+      <div class="split__image">
+        <img src="Images/main/data.webp" alt="Designing an M&amp;E framework" />
+      </div>
+    </section>
+
+
+        <!-- Split 3: Learning & Operations Research -->
+    <section class="split">
+      <div class="split__image">
+        <img src="Images/main/research.jpeg" alt="Learning and operations research session" />
+      </div>
+      <div class="split__content">
+        <h1>Learning &amp; Operations Research</h1>
+        <p>
+          We co-create learning agendas, identify key questions, and apply rigorous methods
+          for actionable insights. Using an adaptive cycle—plan, implement, reflect, refine—
+          we help teams stay agile in fast-changing contexts.
+        </p>
+        <a href="Services.html" class="cta">See how we enable learning →</a>
+      </div>
+    </section>
+
+
+    <!-- WHY PARTNER -->
+    <section class="why-partner" aria-labelledby="why-title">
+      <h2 id="why-title" class="why-title">Why Partner with SI World?</h2>
+      <div class="why-grid">
+        <div class="why-item"><div class="why-num">1</div><p class="why-text"><b>Proven Track Record</b> – Successful MEL system implementations, national DHIS2 deployments, and capacity-building initiatives spanning East Africa.</p></div>
+        <div class="why-item"><div class="why-num">2</div><p class="why-text"><b>Holistic Expertise</b> – Comprehensive solutions from strategic planning and data analytics to advanced software engineering.</p></div>
+        <div class="why-item"><div class="why-num">3</div><p class="why-text"><b>Customized Solutions</b> – Tailor-made systems aligning with unique organizational goals, cultures, and sector-specific challenges.</p></div>
+        <div class="why-item"><div class="why-num">4</div><p class="why-text"><b>Commitment to Excellence</b> – Rigorous testing, validation, and continuous mentoring ensure sustainability and maximum impact.</p></div>
+        <div class="why-item"><div class="why-num">5</div><p class="why-text"><b>Adaptive Approach</b> – We respond swiftly to emerging trends, ensuring your systems evolve without interrupting essential operations.</p></div>
+      </div>
+    </section>
+
+    <!-- CTA band -->
+    <section class="cta-band" aria-label="Get in touch">
+      <div class="wrap">
+        <h2>How can we help you?</h2>
+        <p><a href="Contact.html">Get in touch</a> with us.</p>
+      </div>
+    </section>
+
+    <!-- ================= FULL-BLEED INSIGHTS ================= -->
+    <section class="insights full-bleed" aria-label="Latest insights">
+      <div class="insights-kicker">New at the SI World blog</div>
+      <h2>Latest insights & stories</h2>
+
+      <div class="insights-grid">
+        <!-- Featured -->
+        <article class="insight-card--feature">
+          <figure class="insight-media">
+            <!-- Replace with your image -->
+            <img src="Images/main/website 3.jpg" alt="Featured story image">
+          </figure>
+          <div class="overlay">
+            <div class="overlay-inner">
+              <p class="feature-date">August 18, 2025</p>
+              <h3 class="feature-title"><a href="#">Building AI that delivers today: an innovator’s journey</a></h3>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 2 -->
+        <article class="insight-card">
+          <figure class="insight-media"><img src="Images/main/website 4.jpg" alt="Story image"></figure>
+          <div class="insight-body">
+            <p class="insight-date">August 11, 2025</p>
+            <h3 class="insight-title"><a href="#">Caring for patients while transforming health systems</a></h3>
+          </div>
+        </article>
+
+        <!-- Card 3 -->
+        <article class="insight-card">
+          <figure class="insight-media"><img src="Images/main/website1.jpg" alt="Story image"></figure>
+          <div class="insight-body">
+            <p class="insight-date">August 7, 2025</p>
+            <h3 class="insight-title"><a href="#">Sharper insights: how generative tools transform engagement</a></h3>
+          </div>
+        </article>
+
+        <!-- Card 4 -->
+        <article class="insight-card">
+          <figure class="insight-media"><img src="Images/main/website 5.jpg" alt="Story image"></figure>
+          <div class="insight-body">
+            <p class="insight-date">August 4, 2025</p>
+            <h3 class="insight-title"><a href="#">Behind the drive to scale circular materials globally</a></h3>
+          </div>
+        </article>
+      </div>
+
+      <div class="insights-more">
+        <a href="#">Read more on our blog →</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <img src="Images/icon/Siworld.png" alt="SI World" class="footer-logo" />
+          <h4 class="footer-heading">Contact Us</h4>
+          <p>Mobile: +256 752 368 515</p>
+          <p>WhatsApp: +256 782 650 008</p>
+          <p>Office: +256 782 384 494</p>
+          <p>Email: info@siworld-global.com</p>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Products and Services</h4>
+          <ul class="footer-links">
+            <li><a href="#">Training</a></li>
+            <li><a href="#">Online Learning</a></li>
+            <li><a href="#">Data & Analytics</a></li>
+            <li><a href="#">Strategic Planning</a></li>
+            <li><a href="#">Executive Coaching</a></li>
+            <li><a href="#">Outsourcing & Payroll</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Interact</h4>
+          <ul class="footer-links">
+            <li><a href="#">Knowledge & Insights</a></li>
+            <li><a href="Company profile.html">Company Profile</a></li>
+            <li><a href="#">Corporate Narrative</a></li>
+            <li><a href="#">Our Team</a></li>
+            <li><a href="Contact.html">Contact Us</a></li>
+            <li><a href="#">News, Views & Updates</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container bottom-row">
+        <p class="copyright">© Strategic Information World 2025 · Made with ♥ in Kampala</p>
+        <ul class="socials">
+          <li><a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 20v-6h2.2l.3-2.4h-2.5V9.6c0-.7.2-1.2 1.3-1.2h1.3V6.2c-.2 0-1-.1-2-.1-2 0-3.3 1.2-3.3 3.4v2h-2.2V14h2.2v6h2.7z"/></svg></a></li>
+          <li><a href="#" aria-label="X / Twitter"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 4l7.4 8.6L3.5 20h2.1l6.2-6.7 5 6.7H21l-7.8-10L20.5 4h-2.1l-5.6 6-4.5-6H3z"/></svg></a></li>
+          <li><a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 7a5 5 0 100 10 5 5 0 000-10zm7-2a3 3 0 013 3v8a3 3 0 01-3 3H5a3 3 0 01-3-3V8a3 3 0 013-3h14zm-1.5 2a1 1 0 100 2 1 1 0 000-2zM12 9.5A2.5 2.5 0 119.5 12 2.5 2.5 0 0112 9.5z"/></svg></a></li>
+          <li><a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.9 8.6H4V20h2.9V8.6zM5.4 4a1.7 1.7 0 100 3.5A1.7 1.7 0 005.4 4zM20 20v-6.5c0-3.5-1.9-5.1-4.4-5.1-2 0-2.9 1.1-3.4 1.8V8.6H9.3V20h2.9v-6.3c0-1.7.3-3.4 2.5-3.4s2.2 1.9 2.2 3.5V20H20z"/></svg></a></li>
+          <li><a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 15l5.2-3L10 9v6zm11-7.5a4 4 0 00-2.8-2.8C16.9 4 12 4 12 4s-4.9 0-6.2.7A4 4 0 003 7.5 41 41 0 003 12a41 41 0 000 4.5 4 4 0 002.8 2.8C7.1 20 12 20 12 20s4.9 0 6.2-.7A4 4 0 0021 16.5 41 41 0 0021 12a41 41 0 000-4.5z"/></svg></a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SI World — Services</title>
+  <link rel="icon" type="image/x-icon" href="Images/icon/man1.ico" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    :root{
+      --brand:#ff5533;
+      --brand-2:#ff7f29;
+      --brand-3:#ffa166;
+      --ink:#0e0e0e;
+      --muted:#6a6a6a;
+      --line:#e9e9e9;
+
+      --nav-bg:rgba(0,0,0,.55);
+      --nav-h:75px;
+
+      --footer-bg:#11151c;
+      --footer-text:#dbe1ea;
+      --footer-muted:#9aa3af;
+      --footer-border:rgba(255,255,255,.08);
+    }
+
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,sans-serif;
+      color:var(--ink);
+      background:#fff;
+    }
+    img{max-width:100%; display:block}
+
+    .container{width:100%;max-width:1300px;margin:0 auto;padding:0 10%}
+    @media (max-width:1200px){ .container{padding:0 6%} }
+    @media (max-width:680px){ .container{padding:0 4%} }
+
+    /* NAV */
+    nav{
+      position:fixed; inset:0 0 auto 0; height:var(--nav-h);
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 10%; background:var(--nav-bg); z-index:40;
+      backdrop-filter:saturate(120%) blur(6px); -webkit-backdrop-filter:saturate(120%) blur(6px);
+    }
+    .logo{height:40px}
+    nav ul{list-style:none;margin:0;padding:0;display:flex;gap:24px}
+    nav a{color:#fff;text-decoration:none;font-size:15px;font-weight:600;letter-spacing:2px;text-transform:uppercase;padding:8px 16px;display:inline-block;transition:.2s}
+    nav a:hover{color:var(--brand);border:1px solid #fff;border-radius:10px}
+
+    /* HERO */
+    .hero{
+      margin-top:var(--nav-h);
+      position:relative;
+      color:#fff;
+      background: linear-gradient(100deg, var(--brand) 0%, var(--brand-2) 55%, var(--brand-3) 100%);
+      min-height:46vh;
+      display:grid; place-items:center;
+      overflow:hidden;
+    }
+    .hero:after{
+      content:""; position:absolute; inset:auto 0 0 0; height:120px;
+      background:linear-gradient(to bottom, rgba(0,0,0,0.05), rgba(0,0,0,0));
+      pointer-events:none;
+    }
+    .hero .wrap{ text-align:center; padding:56px 0 }
+    .hero h1{margin:0 0 12px; font-weight:700; font-size:clamp(2rem,6vw,3.6rem); letter-spacing:.3px}
+    .hero p{margin:0 auto; max-width:900px; font-weight:300; font-size:clamp(1rem,1.6vw,1.2rem)}
+
+    /* QUICK NAV CHIPS */
+    .chips{
+      position:sticky; top:calc(var(--nav-h) - 1px); z-index:35;
+      background:#fff;
+      border-bottom:1px solid var(--line);
+    }
+    .chips .scroll{
+      display:flex; gap:12px; overflow:auto; padding:14px 10%;
+      scrollbar-width:none;
+    }
+    .chips .scroll::-webkit-scrollbar{display:none}
+    .chip{
+      white-space:nowrap;
+      padding:10px 14px; border-radius:999px; border:1px solid var(--line);
+      font-size:.92rem; color:#333; background:#fff;
+      transition:.2s; text-decoration:none;
+    }
+    .chip:hover{border-color:#ffd4c7; background:#fff6f3}
+    :target .chip{outline:none}
+
+    /* SECTION BASE */
+    section{scroll-margin-top:calc(var(--nav-h) + 20px)}
+    .section{padding:64px 0; border-bottom:1px solid var(--line)}
+    .section:last-of-type{border-bottom:none}
+
+    /* SERVICE FEATURE BLOCKS */
+    .service{
+      display:grid; grid-template-columns: 1.1fr 1fr; gap:40px; align-items:center;
+    }
+    .service--rev{ grid-template-columns: 1fr 1.1fr; }
+    .service__media{
+      border-radius:18px; overflow:hidden; background:#f4f4f4; min-height:320px;
+      box-shadow:0 8px 30px rgba(0,0,0,.06);
+    }
+    .service__media img{ width:100%; height:100%; object-fit:cover; }
+    .service__body h2{ margin:0 0 12px; font-size:clamp(1.5rem,3.4vw,2.1rem) }
+    .service__body p{ margin:0 0 16px; color:#333; line-height:1.75 }
+    .badges{ display:flex; flex-wrap:wrap; gap:8px; margin:16px 0 0 }
+    .badge{
+      font-size:.85rem; padding:6px 10px; border:1px dashed #ffceb9; color:#aa2c00;
+      background:#fff6f3; border-radius:999px;
+    }
+    .meta{
+      display:flex; gap:16px; flex-wrap:wrap; margin-top:18px; color:#666; font-size:.92rem;
+    }
+    .meta div{ display:flex; gap:8px; align-items:center }
+    .meta svg{ width:18px; height:18px }
+
+    /* HOVER LIFT FOR IMAGES (subtle) */
+    .service__media:hover{ transform:translateY(-2px); transition:.25s ease }
+
+    /* CTA band */
+    .cta-band{
+      margin:0; text-align:center; color:#fff;
+      background:linear-gradient(90deg, #2c2b2b 0%, var(--brand-2) 42%, var(--brand) 100%);
+      padding: clamp(36px,6vw,72px) 10%;
+    }
+    .cta-band .wrap{max-width:980px;margin:0 auto}
+    .cta-band h2{margin:0 0 10px; font-weight:700; font-size:clamp(1.8rem,4vw,2.4rem)}
+    .cta-band p{margin:0; font-size:clamp(1rem,1.3vw,1.125rem)}
+    .cta-band a{color:#fff; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:2px}
+
+    /* FOOTER */
+    footer.footer{background:var(--footer-bg); color:var(--footer-text)}
+    .footer-top{padding:56px 0}
+    .footer-grid{display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:40px}
+    .footer-logo{height:72px; margin-bottom:12px; filter:brightness(0) invert(1)}
+    .footer-heading{font-size:14px; letter-spacing:2px; text-transform:uppercase; color:#fff; margin:6px 0 18px}
+    .footer-brand p{margin:8px 0; color:var(--footer-muted)}
+    .footer-links{list-style:none; margin:0; padding:0}
+    .footer-links li{padding:10px 0 10px 18px; border-top:1px solid var(--footer-border); position:relative}
+    .footer-links li:first-child{border-top:0}
+    .footer-links li::before{content:"›"; position:absolute; left:0; top:10px; color:var(--brand); font-weight:700}
+    .footer a{color:#cfd6df; text-decoration:none; transition:color .15s}
+    .footer a:hover{color:var(--brand)}
+    .footer-bottom{background:var(--brand); color:#fff; padding:12px 0}
+    .bottom-row{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap}
+    .socials{list-style:none; display:flex; gap:14px; margin:0; padding:0}
+    .socials a{color:#fff; display:inline-flex}
+    .socials svg{width:20px;height:20px}
+
+    /* Responsive */
+    @media (max-width:1050px){
+      .service, .service--rev{ grid-template-columns:1fr; }
+      .service__media{ min-height:260px }
+    }
+    @media (max-width:900px){ .footer-grid{grid-template-columns:1fr 1fr} }
+    @media (max-width:640px){
+      .footer-grid{grid-template-columns:1fr}
+      .footer-top{padding:40px 0}
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <img src="Images/icon/Siworld.png" alt="Strategic Information World logo" class="logo" />
+    <ul>
+      <li><a href="Main page.html">Home</a></li>
+      <li><a href="Contact.html">Contact</a></li>
+      <li><a class="active" href="Services.html">Services</a></li>
+      <li><a href="About us.html">About us</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="wrap container">
+      <h1>Our Services</h1>
+      <p>Tools, systems, and practices that turn real-time evidence into decisive action.</p>
+    </div>
+  </header>
+
+  <!-- QUICK NAV -->
+  <div class="chips">
+    <div class="scroll">
+      <a class="chip" href="#strategic-planning">Strategic Planning</a>
+      <a class="chip" href="#me-systems">M&E Systems</a>
+      <a class="chip" href="#software">M&E Software</a>
+      <a class="chip" href="#learning-ops">Learning & Ops Research</a>
+      <a class="chip" href="#baseline">Baseline & Evaluations</a>
+      <a class="chip" href="#knowledge">Knowledge & Comms</a>
+      <a class="chip" href="#capacity">Capacity Building</a>
+    </div>
+  </div>
+
+  <main>
+
+    <!-- 3.1 Strategic Planning -->
+    <section id="strategic-planning" class="section container">
+      <div class="service">
+        <div class="service__body">
+          <h2>Strategic Planning</h2>
+          <p>We support leadership teams in defining visions, missions, and objectives. Our approach integrates SWOT analysis, stakeholder mapping, and risk assessments so each client’s strategy is robust and responsive to emerging needs.</p>
+          <div class="badges">
+            <span class="badge">SWOT & Risk</span>
+            <span class="badge">Stakeholder Mapping</span>
+            <span class="badge">Road-mapping</span>
+          </div>
+          <div class="meta">
+            <div>
+              <!-- calendar icon -->
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+              Typical engagement: 4–8 weeks
+            </div>
+          </div>
+        </div>
+        <figure class="service__media">
+          <!-- Replace with your image -->
+          <img src="Images/services/strategic.webp" alt="Strategy session" />
+        </figure>
+      </div>
+    </section>
+
+    <!-- 3.2 M&E Systems Development -->
+    <section id="me-systems" class="section container">
+      <div class="service service--rev">
+        <figure class="service__media">
+          <img src="Images/services/m and e.png" alt="Monitoring & Evaluation systems" />
+        </figure>
+        <div class="service__body">
+          <h2>M&E Systems Development</h2>
+          <p>We design and refine monitoring and evaluation frameworks, indicators, and tools to capture quality data and drive informed decisions—ensuring reliable, timely information at every level of the organization.</p>
+          <div class="badges">
+            <span class="badge">Frameworks & Indicators</span>
+            <span class="badge">Data Quality</span>
+            <span class="badge">Dashboards</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3.3 M&E Software Development / Adaptation -->
+    <section id="software" class="section container">
+      <div class="service">
+        <div class="service__body">
+          <h2>M&E Software Development / Adaptation</h2>
+          <p>Leveraging platforms like DHIS2, Tableau, and Power BI, we transform raw data into actionable insights. From SurveyCTO and KoboCollect to specialized mobile apps, our solutions fit local contexts and global standards.</p>
+          <div class="badges">
+            <span class="badge">DHIS2</span>
+            <span class="badge">Tableau</span>
+            <span class="badge">Power BI</span>
+            <span class="badge">KoboCollect</span>
+            <span class="badge">SurveyCTO</span>
+          </div>
+        </div>
+        <figure class="service__media">
+          <img src="Images/services/me.webp" alt="Software adaptation and integration" />
+        </figure>
+      </div>
+    </section>
+
+    <!-- 3.4 Learning & Operations Research -->
+    <section id="learning-ops" class="section container">
+      <div class="service service--rev">
+        <figure class="service__media">
+          <img src="Images/services/research3.jpg" alt="Operations research workshop" />
+        </figure>
+        <div class="service__body">
+          <h2>Learning & Operations Research</h2>
+          <p>We co-create learning agendas, identify key questions, and apply rigorous methods for actionable insights. Using an adaptive cycle—plan, implement, reflect, refine—we help organizations stay agile in fast-changing contexts.</p>
+          <div class="badges">
+            <span class="badge">Learning Agendas</span>
+            <span class="badge">Adaptive Cycles</span>
+            <span class="badge">Applied Research</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3.5 Baseline & Evaluation Assessments -->
+    <section id="baseline" class="section container">
+      <div class="service">
+        <div class="service__body">
+          <h2>Baseline & Evaluation Assessments</h2>
+          <p>We conduct baselines, mid-term evaluations, and end-term impact assessments using methodologies aligned with international best practices—measuring effectiveness and communicating findings clearly.</p>
+          <div class="badges">
+            <span class="badge">Baseline</span>
+            <span class="badge">Mid-term</span>
+            <span class="badge">End-line</span>
+            <span class="badge">Impact</span>
+          </div>
+        </div>
+        <figure class="service__media">
+          <img src="Images/services/graph.jfif" alt="Evaluation results and analytics" />
+        </figure>
+      </div>
+    </section>
+
+    <!-- 3.6 Knowledge Management & Communication -->
+    <section id="knowledge" class="section container">
+      <div class="service service--rev">
+        <figure class="service__media">
+          <img src="Images/services/knowledge.jpg" alt="Knowledge sharing" />
+        </figure>
+        <div class="service__body">
+          <h2>Knowledge Management & Communication</h2>
+          <p>We organize and disseminate knowledge products—success stories, abstracts, manuscripts, and strategic reports—and design communication strategies that amplify results and enable peer learning.</p>
+          <div class="badges">
+            <span class="badge">Success Stories</span>
+            <span class="badge">Briefs & Reports</span>
+            <span class="badge">Comms Strategy</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3.7 Capacity Building -->
+    <section id="capacity" class="section container">
+      <div class="service">
+        <div class="service__body">
+          <h2>Capacity Building</h2>
+          <p>Hands-on trainings in M&E frameworks, results-based management, and tools such as DHIS2, SPSS, Stata, and Q-GIS—so teams can sustain, improve, and scale their M&E systems over time.</p>
+          <div class="badges">
+            <span class="badge">DHIS2 / SPSS / Stata</span>
+            <span class="badge">Q-GIS</span>
+            <span class="badge">RBM</span>
+          </div>
+        </div>
+        <figure class="service__media">
+          <img src="Images/services/building.jpg" alt="Training and capacity building" />
+        </figure>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-band" aria-label="Get in touch">
+      <div class="wrap">
+        <h2>Ready to move from data to decisive action?</h2>
+        <p><a href="Contact.html">Get in touch</a> and let’s map the fastest path to impact.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-top">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <img src="Images/icon/Siworld.png" alt="SI World" class="footer-logo" />
+          <h4 class="footer-heading">Contact Us</h4>
+          <p>Mobile: +256 752 368 515</p>
+          <p>WhatsApp: +256 782 650 008</p>
+          <p>Office: +256 782 384 494</p>
+          <p>Email: info@siworld-global.com</p>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Products and Services</h4>
+          <ul class="footer-links">
+            <li><a href="Services.html#strategic-planning">Strategic Planning</a></li>
+            <li><a href="Services.html#me-systems">M&E Systems</a></li>
+            <li><a href="Services.html#software">M&E Software</a></li>
+            <li><a href="Services.html#learning-ops">Learning & Ops Research</a></li>
+            <li><a href="Services.html#baseline">Baseline & Evaluations</a></li>
+            <li><a href="Services.html#capacity">Capacity Building</a></li>
+          </ul>
+        </div>
+
+        <div>
+          <h4 class="footer-heading">Interact</h4>
+          <ul class="footer-links">
+            <li><a href="#">Knowledge & Insights</a></li>
+            <li><a href="#">Company Profile</a></li>
+            <li><a href="#">Corporate Narrative</a></li>
+            <li><a href="About us.html">Our Team</a></li>
+            <li><a href="Contact.html">Contact Us</a></li>
+            <li><a href="#">News, Views & Updates</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="container bottom-row">
+        <p class="copyright">© Strategic Information World 2025 · Made with ♥ in Kampala</p>
+        <ul class="socials">
+          <li><a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M13.5 20v-6h2.2l.3-2.4h-2.5V9.6c0-.7.2-1.2 1.3-1.2h1.3V6.2c-.2 0-1-.1-2-.1-2 0-3.3 1.2-3.3 3.4v2h-2.2V14h2.2v6h2.7z"/></svg></a></li>
+          <li><a href="#" aria-label="X / Twitter"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 4l7.4 8.6L3.5 20h2.1l6.2-6.7 5 6.7H21l-7.8-10L20.5 4h-2.1l-5.6 6-4.5-6H3z"/></svg></a></li>
+          <li><a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 7a5 5 0 100 10 5 5 0 000-10zm7-2a3 3 0 013 3v8a3 3 0 01-3 3H5a3 3 0 01-3-3V8a3 3 0 013-3h14zm-1.5 2a1 1 0 100 2 1 1 0 000-2zM12 9.5A2.5 2.5 0 119.5 12 2.5 2.5 0 0112 9.5z"/></svg></a></li>
+          <li><a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M6.9 8.6H4V20h2.9V8.6zM5.4 4a1.7 1.7 0 100 3.5A1.7 1.7 0 005.4 4zM20 20v-6.5c0-3.5-1.9-5.1-4.4-5.1-2 0-2.9 1.1-3.4 1.8V8.6H9.3V20h2.9v-6.3c0-1.7.3-3.4 2.5-3.4s2.2 1.9 2.2 3.5V20H20z"/></svg></a></li>
+          <li><a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M10 15l5.2-3L10 9v6zm11-7.5a4 4 0 00-2.8-2.8C16.9 4 12 4 12 4s-4.9 0-6.2.7A4 4 0 003 7.5 41 41 0 003 12a41 41 0 000 4.5 4 4 0 002.8 2.8C7.1 20 12 20 12 20s4.9 0 6.2-.7A4 4 0 0021 16.5 41 41 0 0021 12a41 41 0 000-4.5z"/></svg></a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
