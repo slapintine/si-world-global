@@ -1,215 +1,300 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SI World — Contact</title>
-  <link rel="icon" type="image/x-icon" href="Images/icon/man1.ico" />
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SI World — Contact</title>
 
-  <style>
-    /* ===== YOUR ORIGINAL STYLES (UNCHANGED) ===== */
-    :root{
-      --brand:#ff5533;
-      --brand-2:#ff7f29;
-      --brand-3:#ff9355;
-      --ink:#0f1320;
-      --muted:#626b7a;
-      --bg:#ffffff;
-      --panel:#f7f7f8;
-      --nav-bg: rgba(15,19,32,.65);
-      --footer-bg:#11151c;
-      --footer-text:#dbe1ea;
-      --footer-muted:#9aa3af;
-      --footer-border:rgba(255,255,255,.08);
-      --nav-h:75px;
-      --radius-xl:18px;
-      --radius:12px;
-      --shadow: 0 10px 30px rgba(0,0,0,.12);
-      --shadow-sm: 0 4px 14px rgba(0,0,0,.10);
-    }
+<link rel="icon" type="image/x-icon" href="Images/icon/man1.ico">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
 
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family:"Poppins",sans-serif;
-      color:var(--ink);
-      background:var(--bg);
-    }
+<style>
+:root{
+  --brand:#ff5533;
+  --brand-2:#ff7f29;
+  --ink:#0f1320;
+  --muted:#626b7a;
+  --bg:#ffffff;
+  --panel:#f7f7f8;
+  --nav-bg: rgba(15,19,32,.65);
+  --footer-bg:#11151c;
+  --footer-text:#dbe1ea;
+  --footer-muted:#9aa3af;
+  --footer-border:rgba(255,255,255,.08);
+  --nav-h:75px;
+  --radius-xl:18px;
+  --radius:12px;
+  --shadow:0 10px 30px rgba(0,0,0,.12);
+}
 
-    nav{
-      position:fixed; inset:0 0 auto 0; height:var(--nav-h);
-      display:flex; align-items:center; justify-content:space-between;
-      padding:0 10%;
-      background:var(--nav-bg);
-      z-index:50;
-      backdrop-filter: blur(6px);
-    }
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:"Poppins",sans-serif;
+  background:var(--bg);
+  color:var(--ink);
+}
 
-    nav a{color:#fff;text-decoration:none;font-weight:600}
+/* NAV */
+nav{
+  position:fixed;
+  top:0;left:0;right:0;
+  height:var(--nav-h);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:0 10%;
+  background:var(--nav-bg);
+  backdrop-filter:blur(6px);
+  z-index:100;
+}
+nav ul{list-style:none;display:flex;gap:24px;margin:0;padding:0}
+nav a{
+  color:#fff;
+  text-decoration:none;
+  font-weight:600;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  padding:8px 16px;
+  border-radius:10px;
+}
+nav a:hover{border:1px solid #fff}
+.logo{height:40px}
 
-    .hero{
-      padding-top:var(--nav-h);
-      background:linear-gradient(90deg,#1b1c1f,var(--brand));
-      color:#fff;
-    }
+/* HERO */
+.hero{
+  padding-top:var(--nav-h);
+  background:linear-gradient(90deg,#1b1c1f,var(--brand));
+  color:#fff;
+}
+.hero__inner{
+  max-width:1200px;
+  margin:auto;
+  padding:60px 10%;
+}
 
-    .hero__inner{max-width:1200px;margin:auto;padding:60px 10%}
+/* CONTENT */
+.wrap{
+  max-width:1200px;
+  margin:auto;
+  padding:40px 10%;
+}
+.form-block{
+  background:#fff;
+  border-radius:var(--radius-xl);
+  box-shadow:var(--shadow);
+  padding:26px;
+}
 
-    .wrap{max-width:1200px;margin:auto;padding:40px 10%}
+form{
+  display:grid;
+  grid-template-columns:repeat(12,1fr);
+  gap:18px;
+}
+.field{grid-column:span 6;display:flex;flex-direction:column}
+.field--full{grid-column:1/-1}
 
-    .form-block{
-      background:#fff;
-      border-radius:var(--radius-xl);
-      box-shadow:var(--shadow);
-      padding:26px;
-    }
+input,select,textarea{
+  padding:12px;
+  border-radius:12px;
+  border:1px solid #e6e6ea;
+  font-family:inherit;
+}
+textarea{min-height:140px}
 
-    form{display:grid;grid-template-columns:repeat(12,1fr);gap:18px}
+.actions{
+  grid-column:1/-1;
+  display:flex;
+  justify-content:flex-end;
+  gap:14px;
+}
+.btn{
+  background:linear-gradient(90deg,var(--brand-2),var(--brand));
+  color:#fff;
+  border:none;
+  border-radius:999px;
+  padding:12px 22px;
+  font-weight:700;
+  cursor:pointer;
+}
+.ghost{
+  background:transparent;
+  color:var(--brand);
+  border:2px solid var(--brand);
+}
 
-    .field{grid-column:span 6;display:flex;flex-direction:column}
-    .field--full{grid-column:1/-1}
+/* SUCCESS MESSAGE */
+#form-status{
+  display:none;
+  margin-top:16px;
+  padding:12px 16px;
+  border-radius:10px;
+  background:#e6f9ee;
+  color:#0f7a3d;
+  font-weight:600;
+}
 
-    input,select,textarea{
-      padding:12px;
-      border-radius:12px;
-      border:1px solid #e6e6ea;
-      font-family:inherit;
-    }
-
-    textarea{min-height:140px}
-
-    .actions{grid-column:1/-1;display:flex;justify-content:flex-end;gap:14px}
-
-    .btn{
-      background:linear-gradient(90deg,var(--brand-2),var(--brand));
-      color:#fff;border:none;
-      border-radius:999px;
-      padding:12px 22px;
-      font-weight:700;
-      cursor:pointer;
-    }
-
-    .ghost{
-      background:transparent;
-      color:var(--brand);
-      border:2px solid var(--brand);
-    }
-
-    /* Success message */
-    #form-status{
-      display:none;
-      margin-top:16px;
-      padding:12px 16px;
-      border-radius:10px;
-      background:#e6f9ee;
-      color:#0f7a3d;
-      font-weight:600;
-    }
-  </style>
+/* FOOTER */
+footer{
+  background:var(--footer-bg);
+  color:var(--footer-text);
+  margin-top:60px;
+}
+.footer-inner{
+  max-width:1200px;
+  margin:auto;
+  padding:50px 10%;
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:40px;
+}
+footer h4{
+  text-transform:uppercase;
+  letter-spacing:2px;
+}
+footer a{
+  color:#cfd6df;
+  text-decoration:none;
+}
+footer a:hover{color:var(--brand)}
+.footer-bottom{
+  background:var(--brand);
+  text-align:center;
+  padding:12px;
+}
+</style>
 </head>
 
 <body>
 
-  <!-- HERO -->
-  <header class="hero">
-    <div class="hero__inner">
-      <h1>Get in touch with SI World</h1>
-      <p>Questions about partnerships or services? Send us a message.</p>
+<!-- NAV -->
+<nav>
+  <img src="Images/icon/Siworld.png" class="logo" alt="SI World">
+  <ul>
+    <li><a href="index.html">Home</a></li>
+    <li><a href="Contact.html">Contact</a></li>
+    <li><a href="Services.html">Services</a></li>
+    <li><a href="About us.html">About us</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero__inner">
+    <h1>Get in touch with SI World</h1>
+    <p>Send us a message and we’ll respond quickly.</p>
+  </div>
+</header>
+
+<!-- FORM -->
+<main class="wrap">
+  <section class="form-block">
+    <h2>Send us a message</h2>
+
+    <form id="contact-form" action="https://formspree.io/f/xeeqqvdz" method="POST">
+
+      <div class="field">
+        <label>Your Name</label>
+        <input name="name" required>
+      </div>
+
+      <div class="field">
+        <label>Email</label>
+        <input type="email" name="email" required>
+      </div>
+
+      <div class="field">
+        <label>Organization</label>
+        <input name="organization">
+      </div>
+
+      <div class="field">
+        <label>Phone</label>
+        <input name="phone">
+      </div>
+
+      <div class="field">
+        <label>Reason</label>
+        <select name="topic" required>
+          <option disabled selected>Select one</option>
+          <option>Training / Capacity building</option>
+          <option>Data & Analytics</option>
+          <option>Strategic planning</option>
+          <option>M&E systems</option>
+          <option>Partnership / Other</option>
+        </select>
+      </div>
+
+      <div class="field field--full">
+        <label>Message</label>
+        <textarea name="message" required></textarea>
+      </div>
+
+      <div class="actions">
+        <button type="reset" class="btn ghost">Reset</button>
+        <button type="submit" class="btn">Submit</button>
+      </div>
+    </form>
+
+    <div id="form-status">Thank you for submitting!</div>
+  </section>
+</main>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <h4>Contact</h4>
+      <p>Email: info@siworld-global.com</p>
+      <p>Phone: +256 752 368 515</p>
     </div>
-  </header>
 
-  <main class="wrap">
+    <div>
+      <h4>Services</h4>
+      <p><a href="Services.html">Training</a></p>
+      <p><a href="Services.html">Analytics</a></p>
+      <p><a href="Services.html">Strategic Planning</a></p>
+    </div>
 
-    <!-- FORM -->
-    <section class="form-block">
-      <h2>Send us a message</h2>
+    <div>
+      <h4>Company</h4>
+      <p><a href="About us.html">About Us</a></p>
+      <p><a href="Contact.html">Contact</a></p>
+    </div>
+  </div>
 
-      <form id="contact-form" action="https://formspree.io/f/xeeqqvdz" method="POST">
+  <div class="footer-bottom">
+    © Strategic Information World 2025 · Kampala
+  </div>
+</footer>
 
-        <div class="field">
-          <label>Your Name</label>
-          <input name="name" required>
-        </div>
+<!-- SCRIPT -->
+<script>
+const form = document.getElementById("contact-form");
+const status = document.getElementById("form-status");
 
-        <div class="field">
-          <label>Email</label>
-          <input type="email" name="email" required>
-        </div>
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  const data = new FormData(form);
 
-        <div class="field">
-          <label>Organization</label>
-          <input name="organization">
-        </div>
+  const res = await fetch(form.action, {
+    method:"POST",
+    body:data,
+    headers:{Accept:"application/json"}
+  });
 
-        <div class="field">
-          <label>Phone</label>
-          <input name="phone">
-        </div>
-
-        <div class="field">
-          <label>Reason</label>
-          <select name="topic" required>
-            <option disabled selected>Select one</option>
-            <option>Training / Capacity building</option>
-            <option>Data & Analytics</option>
-            <option>Strategic planning</option>
-            <option>M&E systems</option>
-            <option>Partnership / Other</option>
-          </select>
-        </div>
-
-        <div class="field field--full">
-          <label>Message</label>
-          <textarea name="message" required></textarea>
-        </div>
-
-        <div class="actions">
-          <button type="reset" class="btn ghost">Reset</button>
-          <button type="submit" class="btn">Submit</button>
-        </div>
-      </form>
-
-      <div id="form-status">Thank you for submitting!</div>
-    </section>
-
-  </main>
-
-  <!-- ✅ SCRIPT (ONLY NEW PART) -->
-  <script>
-    const form = document.getElementById("contact-form");
-    const status = document.getElementById("form-status");
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const data = new FormData(form);
-
-      try {
-        const response = await fetch(form.action, {
-          method: "POST",
-          body: data,
-          headers: { "Accept": "application/json" }
-        });
-
-        if (response.ok) {
-          status.style.display = "block";
-          status.textContent = "Thank you for submitting!";
-          form.reset();
-          setTimeout(() => status.style.display = "none", 5000);
-        } else {
-          status.style.display = "block";
-          status.style.background = "#fdecea";
-          status.style.color = "#b91c1c";
-          status.textContent = "Submission failed. Please try again.";
-        }
-      } catch {
-        status.style.display = "block";
-        status.style.background = "#fdecea";
-        status.style.color = "#b91c1c";
-        status.textContent = "Network error.";
-      }
-    });
-  </script>
+  if(res.ok){
+    status.style.display="block";
+    form.reset();
+    setTimeout(()=>status.style.display="none",5000);
+  } else {
+    status.style.display="block";
+    status.style.background="#fdecea";
+    status.style.color="#b91c1c";
+    status.textContent="Submission failed.";
+  }
+});
+</script>
 
 </body>
 </html>
