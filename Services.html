@@ -8,560 +8,327 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
 
   <style>
-    :root{
-      --brand:#ff5533;
-      --brand-2:#ff7f29;
-      --brand-3:#ffa166;
-      --ink:#0e0e0e;
-      --muted:#6a6a6a;
-      --line:#e9e9e9;
-
-      --nav-bg:rgba(0,0,0,.55);
-      --nav-h:75px;
-
-      --footer-bg:#11151c;
-      --footer-text:#dbe1ea;
-      --footer-muted:#9aa3af;
-      --footer-border:rgba(255,255,255,.08);
+    :root {
+      --brand: #ff5533;
+      --brand-dark: #ff7f29;
+      --nav-bg: rgba(0,0,0,0.55);
+      --overlay: rgba(0,0,0,0.35);
+      --footer-bg: #11151c;
+      --footer-text: #dbe1ea;
+      --footer-muted: #9aa3af;
+      --footer-border: rgba(255,255,255,.08);
+      --line: #e9e9e9;
     }
 
-    *{box-sizing:border-box}
-    html,body{height:100%}
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
     body{
       margin:0;
-      font-family:"Poppins",system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial,sans-serif;
-      color:var(--ink);
+      font-family:"Poppins",sans-serif;
       background:#fff;
+      color:#111;
     }
-    img{max-width:100%; display:block}
+    img{ max-width:100%; display:block; }
 
-    .container{width:100%;max-width:1300px;margin:0 auto;padding:0 10%}
-    @media (max-width:1200px){ .container{padding:0 6%} }
-    @media (max-width:680px){ .container{padding:0 4%} }
+    /* Shared container */
+    .container{ width:100%; max-width:1400px; margin:0 auto; padding:0 10%; }
+    @media (max-width:900px){ .container{ padding:0 6%; } }
+    @media (max-width:680px){ .container{ padding:0 4%; } }
 
-    /* =========================
-       NAV (Desktop + Mobile) — same pattern as Home
-       ========================= */
-    .site-nav{
-      position:fixed; inset:0 0 auto 0; height:var(--nav-h);
-      background:var(--nav-bg); z-index:50;
+    /* NAVBAR (same as Home) */
+    nav{
+      position:fixed; inset:0 0 auto 0; height:75px;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 10%; background:var(--nav-bg); z-index:20;
       backdrop-filter:saturate(120%) blur(6px);
       -webkit-backdrop-filter:saturate(120%) blur(6px);
     }
-    .logo{height:40px}
+    .logo{ height:40px; }
 
-    /* Desktop nav */
-    .nav-desktop{
-      height:100%;
-      display:flex; align-items:center; justify-content:space-between;
-      padding:0 10%;
+    nav ul{ list-style:none; margin:0; padding:0; display:flex; gap:24px; }
+    nav a{
+      color:#fff; text-decoration:none; font-size:15px; font-weight:500;
+      letter-spacing:2px; text-transform:uppercase; padding:8px 16px;
+      display:inline-block; transition:.2s;
     }
-    .nav-desktop ul{list-style:none;margin:0;padding:0;display:flex;gap:24px}
-    .nav-desktop a{
-      color:#fff;text-decoration:none;font-size:15px;font-weight:600;letter-spacing:2px;text-transform:uppercase;
-      padding:8px 16px;display:inline-block;transition:.2s;border-radius:10px;
-    }
-    .nav-desktop a:hover{color:var(--brand);border:1px solid #fff}
-    .nav-desktop a.active{border:1px solid rgba(255,255,255,.6)}
+    nav a:hover{ color:var(--brand); border:1px solid #fff; border-radius:10px; }
+    nav a.active{ border:1px solid rgba(255,255,255,.55); border-radius:10px; }
 
-    /* Mobile taskbar */
-    .nav-mobile{display:none}
+    /* Anchor offset for fixed nav */
+    :target::before{ content:""; display:block; height:75px; margin-top:-75px; visibility:hidden; }
 
-    .icon-btn{
-      background:transparent; border:0; color:#fff; cursor:pointer;
-      padding:10px; border-radius:12px;
-      display:inline-flex; align-items:center; justify-content:center;
-    }
-    .icon-btn svg{width:22px;height:22px}
-    .icon-btn:hover{background:rgba(255,255,255,.08)}
-
-    @media (max-width: 900px){
-      .nav-desktop{display:none}
-      .nav-mobile{
-        height:100%;
-        display:flex;
-        align-items:center;
-        justify-content:space-between;
-        padding:0 7%;
-        gap:10px;
-      }
-      .nav-mobile .brand img{height:34px; width:auto; display:block}
-    }
-
-    /* MOBILE DRAWER */
-    .mobile-drawer{
-      position:fixed;
-      top:0; left:0;
-      height:100vh;
-      width:min(86vw, 360px);
-      background:#0b1220;
-      color:#fff;
-      transform:translateX(-100%);
-      transition:transform 220ms ease;
-      z-index:1100;
-      padding:14px;
-      box-shadow:0 20px 60px rgba(0,0,0,.35);
-    }
-    .mobile-drawer.open{transform:translateX(0)}
-
-    .drawer-header{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      padding:6px 2px 12px;
-      border-bottom:1px solid rgba(255,255,255,.10);
-      margin-bottom:10px;
-    }
-    .drawer-title{font-weight:700; letter-spacing:.5px}
-
-    .drawer-links a{
-      display:block;
-      padding:12px 10px;
-      border-radius:12px;
-      text-decoration:none;
-      color:#fff;
-      font-weight:600;
-    }
-    .drawer-links a:hover{background:rgba(255,255,255,.08)}
-    .drawer-links a.active{background:rgba(255,255,255,.10)}
-
-    .drawer-divider{
-      height:1px;
-      background:rgba(255,255,255,.10);
-      margin:10px 0;
-    }
-
-    .drawer-cta{
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.12);
-    }
-
-    /* BACKDROP */
-    .backdrop{
-      position:fixed; inset:0;
-      background:rgba(0,0,0,.45);
-      z-index:1050;
-    }
-
-    /* MOBILE SEARCH PANEL */
-    .mobile-search{
-      position:fixed;
-      top:var(--nav-h);
-      left:0; right:0;
-      z-index:1200;
-      background:rgba(0,0,0,.72);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      padding:12px 7% 16px;
-      border-bottom:1px solid rgba(255,255,255,.10);
-    }
-    .mobile-search__bar{
-      display:flex; gap:10px; align-items:center;
-    }
-    .mobile-search input{
-      flex:1;
-      border-radius:9999px;
-      border:1px solid rgba(255,255,255,.18);
-      background:rgba(255,255,255,.10);
-      color:#fff;
-      padding:12px 14px;
-      font:inherit;
-      outline:none;
-    }
-    .mobile-search input::placeholder{color:rgba(255,255,255,.7)}
-    .mobile-search__quick{
-      display:flex; gap:10px; flex-wrap:wrap;
-      margin-top:12px;
-    }
-    .mobile-search__quick a{
-      color:#fff; text-decoration:none; font-weight:600;
-      padding:8px 12px;
-      border-radius:9999px;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.06);
-    }
-
-    /* Mobile bottom action bar */
-    .mobile-actions-bar{display:none}
-    @media (max-width: 900px){
-      .mobile-actions-bar{
-        display:flex;
-        position:fixed;
-        left:0; right:0; bottom:0;
-        z-index:999;
-        padding:10px 10px calc(10px + env(safe-area-inset-bottom));
-        background:rgba(0,0,0,.72);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        gap:10px;
-      }
-      .mobile-actions-bar a{
-        flex:1;
-        text-align:center;
-        color:#fff;
-        text-decoration:none;
-        font-weight:700;
-        border-radius:9999px;
-        padding:12px 10px;
-        border:1px solid rgba(255,255,255,.14);
-        background:rgba(255,255,255,.06);
-      }
-      body{padding-bottom:72px}
-    }
-
-    /* HERO */
+    /* HERO (Services banner) */
     .hero{
-      margin-top:var(--nav-h);
+      margin-top:75px;
       position:relative;
+      min-height:42vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      text-align:center;
       color:#fff;
-      background: linear-gradient(100deg, var(--brand) 0%, var(--brand-2) 55%, var(--brand-3) 100%);
-      min-height:46vh;
-      display:grid; place-items:center;
-      overflow:hidden;
+      background:linear-gradient(100deg, var(--brand) 0%, var(--brand-dark) 55%, #ffa166 100%);
+      padding:56px 6%;
     }
-    .hero:after{
-      content:""; position:absolute; inset:auto 0 0 0; height:120px;
-      background:linear-gradient(to bottom, rgba(0,0,0,0.05), rgba(0,0,0,0));
-      pointer-events:none;
+    .hero h1{
+      margin:0 0 12px;
+      font-size:clamp(2rem,6vw,3.6rem);
+      font-weight:700;
+      letter-spacing:.3px;
     }
-    .hero .wrap{ text-align:center; padding:56px 0 }
-    .hero h1{margin:0 0 12px; font-weight:700; font-size:clamp(2rem,6vw,3.6rem); letter-spacing:.3px}
-    .hero p{margin:0 auto; max-width:900px; font-weight:300; font-size:clamp(1rem,1.6vw,1.2rem)}
+    .hero p{
+      margin:0 auto;
+      max-width:980px;
+      font-size:clamp(1rem,1.6vw,1.2rem);
+      font-weight:300;
+      line-height:1.6;
+    }
 
-    /* QUICK NAV CHIPS */
-    .chips{
-      position:sticky; top:calc(var(--nav-h) - 1px); z-index:35;
-      background:#fff;
+    /* MAIN */
+    main{ background:#fff; }
+
+    /* Split sections (same as Home) */
+    .split{
+      display:grid;
+      grid-template-columns:45% 55%;
+      grid-template-areas:"image content";
+      min-height:60vh;
       border-bottom:1px solid var(--line);
     }
-    .chips .scroll{
-      display:flex; gap:12px; overflow:auto; padding:14px 10%;
-      scrollbar-width:none;
+    .split--reverse{ grid-template-areas:"content image"; }
+    .split__image{ grid-area:image; margin:0; padding:0; line-height:0; }
+    .split__image img{ width:100%; height:100%; object-fit:cover; display:block; }
+    .split__content{
+      grid-area:content;
+      background:#f8f8f8;
+      padding:80px 60px;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
     }
-    .chips .scroll::-webkit-scrollbar{display:none}
-    .chip{
-      white-space:nowrap;
-      padding:10px 14px; border-radius:999px; border:1px solid var(--line);
-      font-size:.92rem; color:#333; background:#fff;
-      transition:.2s; text-decoration:none;
-    }
-    .chip:hover{border-color:#ffd4c7; background:#fff6f3}
+    .split__content h2{ font-size:2rem; font-weight:700; margin:0 0 18px; }
+    .split__content p{ font-size:1rem; line-height:1.7; margin:0 0 18px; color:#222; }
 
-    /* SECTION BASE */
-    section{scroll-margin-top:calc(var(--nav-h) + 20px)}
-    .section{padding:64px 0; border-bottom:1px solid var(--line)}
-    .section:last-of-type{border-bottom:none}
+    .tags{ display:flex; flex-wrap:wrap; gap:10px; margin-top:8px; }
+    .tag{
+      font-size:.85rem;
+      padding:7px 12px;
+      border-radius:999px;
+      background:#fff;
+      border:1px dashed #ffd1c3;
+      color:#aa2c00;
+      font-weight:600;
+    }
+    .split__content .cta{
+      margin-top:18px;
+      color:var(--brand);
+      font-weight:700;
+      text-decoration:none;
+      width:max-content;
+    }
+    .split__content .cta:hover{ text-decoration:underline; }
 
-    /* SERVICE FEATURE BLOCKS */
-    .service{
-      display:grid; grid-template-columns: 1.1fr 1fr; gap:40px; align-items:center;
+    @media (max-width:992px){
+      .split{ grid-template-columns:1fr 1fr; }
+      .split__content{ padding:48px 32px; }
     }
-    .service--rev{ grid-template-columns: 1fr 1.1fr; }
-    .service__media{
-      border-radius:18px; overflow:hidden; background:#f4f4f4; min-height:320px;
-      box-shadow:0 8px 30px rgba(0,0,0,.06);
-      transition:transform .25s ease;
+    @media (max-width:768px){
+      .split{ grid-template-columns:1fr; grid-template-areas:"image" "content"; }
+      .split--reverse{ grid-template-areas:"image" "content"; }
+      .split__content{ padding:40px 24px; }
+      .split__content h2{ font-size:1.6rem; }
     }
-    .service__media img{ width:100%; height:100%; object-fit:cover; }
-    .service__body h2{ margin:0 0 12px; font-size:clamp(1.5rem,3.4vw,2.1rem) }
-    .service__body p{ margin:0 0 16px; color:#333; line-height:1.75 }
-    .badges{ display:flex; flex-wrap:wrap; gap:8px; margin:16px 0 0 }
-    .badge{
-      font-size:.85rem; padding:6px 10px; border:1px dashed #ffceb9; color:#aa2c00;
-      background:#fff6f3; border-radius:999px;
-    }
-    .meta{
-      display:flex; gap:16px; flex-wrap:wrap; margin-top:18px; color:#666; font-size:.92rem;
-    }
-    .meta div{ display:flex; gap:8px; align-items:center }
-    .meta svg{ width:18px; height:18px }
 
-    .service__media:hover{ transform:translateY(-2px); }
-
-    /* CTA band */
+    /* CTA band (same as Home) */
     .cta-band{
-      margin:0; text-align:center; color:#fff;
-      background:linear-gradient(90deg, #2c2b2b 0%, var(--brand-2) 42%, var(--brand) 100%);
-      padding: clamp(36px,6vw,72px) 10%;
+      background:linear-gradient(90deg,#2c2b2b 0%, var(--brand-dark) 42%, var(--brand) 100%);
+      color:#fff;
+      text-align:center;
+      padding:clamp(32px,6vw,72px) 10%;
     }
-    .cta-band .wrap{max-width:980px;margin:0 auto}
-    .cta-band h2{margin:0 0 10px; font-weight:700; font-size:clamp(1.8rem,4vw,2.4rem)}
-    .cta-band p{margin:0; font-size:clamp(1rem,1.3vw,1.125rem)}
-    .cta-band a{color:#fff; text-decoration:underline; text-underline-offset:3px; text-decoration-thickness:2px}
+    .cta-band .wrap{ max-width:1000px; margin:0 auto; }
+    .cta-band h2{ margin:0 0 10px; font-weight:700; font-size:clamp(1.8rem,4vw,2.6rem); }
+    .cta-band p{ margin:0; font-size:clamp(1rem,1.4vw,1.125rem); }
+    .cta-band a{
+      color:#fff; text-decoration:underline;
+      text-underline-offset:3px; text-decoration-thickness:2px;
+    }
+    .cta-band a:hover{ opacity:.9; }
 
-    /* FOOTER */
-    footer.footer{background:var(--footer-bg); color:var(--footer-text)}
-    .footer-top{padding:56px 0}
-    .footer-grid{display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:40px}
-    .footer-logo{height:72px; margin-bottom:12px; filter:brightness(0) invert(1)}
-    .footer-heading{font-size:14px; letter-spacing:2px; text-transform:uppercase; color:#fff; margin:6px 0 18px}
-    .footer-brand p{margin:8px 0; color:var(--footer-muted)}
-    .footer-links{list-style:none; margin:0; padding:0}
-    .footer-links li{padding:10px 0 10px 18px; border-top:1px solid var(--footer-border); position:relative}
-    .footer-links li:first-child{border-top:0}
-    .footer-links li::before{content:"›"; position:absolute; left:0; top:10px; color:var(--brand); font-weight:700}
-    .footer a{color:#cfd6df; text-decoration:none; transition:color .15s}
-    .footer a:hover{color:var(--brand)}
-    .footer-bottom{background:var(--brand); color:#fff; padding:12px 0}
-    .bottom-row{display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap}
-    .socials{list-style:none; display:flex; gap:14px; margin:0; padding:0}
-    .socials a{color:#fff; display:inline-flex}
-    .socials svg{width:20px;height:20px}
+    /* Footer (same as Home) */
+    footer.footer{ background:var(--footer-bg); color:var(--footer-text); }
+    .footer-top{ padding:56px 0; }
+    .footer-grid{ display:grid; grid-template-columns:1.2fr 1fr 1fr; gap:40px; }
+    .footer-brand .footer-logo{ height:72px; margin-bottom:12px; filter:brightness(0) invert(1); }
+    .footer-brand p{ margin:8px 0; color:var(--footer-muted); }
+    .footer-heading{ font-size:14px; letter-spacing:2px; text-transform:uppercase; color:#fff; margin:6px 0 18px; }
+    .footer-links{ list-style:none; margin:0; padding:0; }
+    .footer-links li{ padding:10px 0 10px 18px; border-top:1px solid var(--footer-border); position:relative; }
+    .footer-links li:first-child{ border-top:0; }
+    .footer-links li::before{ content:"›"; position:absolute; left:0; top:10px; color:var(--brand); font-weight:700; }
+    .footer a{ color:#cfd6df; text-decoration:none; transition:color .15s; }
+    .footer a:hover{ color:var(--brand); }
+    .footer-bottom{ background:var(--brand); color:#fff; padding:12px 0; }
+    .bottom-row{ display:flex; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap; }
+    .socials{ list-style:none; display:flex; gap:14px; margin:0; padding:0; }
+    .socials a{ color:#fff; display:inline-flex; }
+    .socials a:hover{ opacity:.85; }
+    .socials svg{ width:20px; height:20px; display:block; }
 
-    /* Responsive */
-    @media (max-width:1050px){
-      .service, .service--rev{ grid-template-columns:1fr; }
-      .service__media{ min-height:260px }
-    }
-    @media (max-width:900px){ .footer-grid{grid-template-columns:1fr 1fr} }
-    @media (max-width:640px){
-      .footer-grid{grid-template-columns:1fr}
-      .footer-top{padding:40px 0}
-    }
+    @media (max-width:900px){ .footer-grid{ grid-template-columns:1fr 1fr; } }
+    @media (max-width:640px){ .footer-grid{ grid-template-columns:1fr; } }
   </style>
 </head>
 
 <body>
 
-  <!-- NAV (Desktop + Mobile) -->
-  <nav class="site-nav" aria-label="Primary">
-    <!-- Desktop nav -->
-    <div class="nav-desktop">
-      <img src="Images/icon/Siworld.png" alt="Strategic Information World logo" class="logo" />
-      <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="Contact.html">Contact</a></li>
-        <li><a class="active" href="Services.html">Services</a></li>
-        <li><a href="About us.html">About us</a></li>
-      </ul>
-    </div>
-
-    <!-- Mobile taskbar -->
-    <div class="nav-mobile">
-      <button class="icon-btn" id="mobileMenuBtn" aria-label="Open menu" aria-controls="mobileDrawer" aria-expanded="false">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path fill="currentColor" d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/>
-        </svg>
-      </button>
-
-      <a class="brand" href="index.html" aria-label="Go to Home">
-        <img src="Images/icon/Siworld.png" alt="SI World" />
-      </a>
-
-      <button class="icon-btn" id="mobileSearchBtn" aria-label="Search">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path fill="currentColor" d="M10 2a8 8 0 105.3 14l4.7 4.7 1.4-1.4-4.7-4.7A8 8 0 0010 2zm0 2a6 6 0 110 12A6 6 0 0110 4z"/>
-        </svg>
-      </button>
-    </div>
+  <!-- NAV -->
+  <nav>
+    <img src="Images/icon/Siworld.png" alt="Strategic Information World logo" class="logo" />
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="Contact.html">Contact</a></li>
+      <li><a class="active" href="Services.html">Services</a></li>
+      <li><a href="About us.html">About us</a></li>
+    </ul>
   </nav>
 
-  <!-- Mobile drawer -->
-  <aside class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
-    <div class="drawer-header">
-      <span class="drawer-title">Menu</span>
-      <button class="icon-btn" id="mobileCloseBtn" aria-label="Close menu">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path fill="currentColor" d="M18.3 5.7L12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3 1.4 1.4z"/>
-        </svg>
-      </button>
-    </div>
-
-    <nav class="drawer-links" aria-label="Mobile">
-      <a href="index.html">Home</a>
-      <a href="Services.html" class="active">Services</a>
-      <a href="Contact.html">Contact</a>
-      <a href="About us.html">About us</a>
-
-      <div class="drawer-divider"></div>
-
-      <a class="drawer-cta" href="Contact.html">Contact SI World</a>
-      <a class="drawer-cta" href="mailto:info@siworld-global.com">Email: info@siworld-global.com</a>
-    </nav>
-  </aside>
-
-  <!-- Backdrop -->
-  <div class="backdrop" id="backdrop" hidden></div>
-
-  <!-- Mobile search panel -->
-  <div class="mobile-search" id="mobileSearch" hidden>
-    <div class="mobile-search__bar">
-      <input id="mobileSearchInput" type="search" placeholder="Search… (try “strategic”, “DHIS2”, “baseline”, “contact”)" autocomplete="off" />
-      <button class="icon-btn" id="mobileSearchCloseBtn" aria-label="Close search">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-          <path fill="currentColor" d="M18.3 5.7L12 12l6.3 6.3-1.4 1.4L10.6 13.4 4.3 19.7 2.9 18.3 9.2 12 2.9 5.7 4.3 4.3l6.3 6.3 6.3-6.3 1.4 1.4z"/>
-        </svg>
-      </button>
-    </div>
-
-    <div class="mobile-search__quick">
-      <a href="#strategic-planning">Strategic Planning</a>
-      <a href="#me-systems">M&amp;E Systems</a>
-      <a href="#software">M&amp;E Software</a>
-      <a href="#baseline">Baselines</a>
-      <a href="Contact.html">Contact</a>
-    </div>
-  </div>
-
   <!-- HERO -->
-  <header class="hero">
-    <div class="wrap container">
+  <header class="hero" aria-label="Services intro">
+    <div>
       <h1>Our Services</h1>
-      <p>Tools, systems, and practices that turn real-time evidence into decisive action.</p>
+      <p>Tools, systems, and practices that turn real-time evidence into decisive action—so organizations can plan better, learn faster, and deliver measurable results.</p>
     </div>
   </header>
 
-  <!-- QUICK NAV -->
-  <div class="chips">
-    <div class="scroll">
-      <a class="chip" href="#strategic-planning">Strategic Planning</a>
-      <a class="chip" href="#me-systems">M&amp;E Systems</a>
-      <a class="chip" href="#software">M&amp;E Software</a>
-      <a class="chip" href="#learning-ops">Learning &amp; Ops Research</a>
-      <a class="chip" href="#baseline">Baseline &amp; Evaluations</a>
-      <a class="chip" href="#knowledge">Knowledge &amp; Comms</a>
-      <a class="chip" href="#capacity">Capacity Building</a>
-    </div>
-  </div>
-
   <main>
 
-    <!-- 3.1 Strategic Planning -->
-    <section id="strategic-planning" class="section container">
-      <div class="service">
-        <div class="service__body">
-          <h2>Strategic Planning</h2>
-          <p>We support leadership teams in defining visions, missions, and objectives. Our approach integrates SWOT analysis, stakeholder mapping, and risk assessments so each client’s strategy is robust and responsive to emerging needs.</p>
-          <div class="badges">
-            <span class="badge">SWOT &amp; Risk</span>
-            <span class="badge">Stakeholder Mapping</span>
-            <span class="badge">Road-mapping</span>
-          </div>
-          <div class="meta">
-            <div>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-              Typical engagement: 4–8 weeks
-            </div>
-          </div>
+    <!-- Strategic Planning -->
+    <section id="strategic-planning" class="split">
+      <div class="split__image">
+        <img src="Images/services/strategic.webp" alt="Strategy session" />
+      </div>
+      <div class="split__content">
+        <h2>Strategic Planning</h2>
+        <p>We support leadership teams to clarify vision, priorities, and measurable goals. Our facilitation blends analysis and practical road-mapping to help organizations move from ideas to execution.</p>
+        <div class="tags">
+          <span class="tag">SWOT & Risk</span>
+          <span class="tag">Stakeholder Mapping</span>
+          <span class="tag">Roadmaps</span>
         </div>
-        <figure class="service__media">
-          <img src="Images/services/strategic.webp" alt="Strategy session" />
-        </figure>
+        <a class="cta" href="Contact.html">Talk to us about a strategy sprint →</a>
       </div>
     </section>
 
-    <!-- 3.2 M&E Systems Development -->
-    <section id="me-systems" class="section container">
-      <div class="service service--rev">
-        <figure class="service__media">
-          <img src="Images/services/m and e.png" alt="Monitoring &amp; Evaluation systems" />
-        </figure>
-        <div class="service__body">
-          <h2>M&amp;E Systems Development</h2>
-          <p>We design and refine monitoring and evaluation frameworks, indicators, and tools to capture quality data and drive informed decisions—ensuring reliable, timely information at every level of the organization.</p>
-          <div class="badges">
-            <span class="badge">Frameworks &amp; Indicators</span>
-            <span class="badge">Data Quality</span>
-            <span class="badge">Dashboards</span>
-          </div>
+    <!-- M&E Systems -->
+    <section id="me-systems" class="split split--reverse">
+      <div class="split__content">
+        <h2>M&amp;E Systems Development</h2>
+        <p>We design and refine M&amp;E frameworks, indicators, and tools that produce high-quality data and usable insights—supporting accountability, performance tracking, and adaptive management.</p>
+        <div class="tags">
+          <span class="tag">Frameworks</span>
+          <span class="tag">Indicators</span>
+          <span class="tag">Data Quality</span>
+          <span class="tag">Dashboards</span>
         </div>
+        <a class="cta" href="Contact.html">Build a stronger M&amp;E system →</a>
+      </div>
+      <div class="split__image">
+        <img src="Images/services/m and e.png" alt="Monitoring and evaluation systems" />
       </div>
     </section>
 
-    <!-- 3.3 M&E Software Development / Adaptation -->
-    <section id="software" class="section container">
-      <div class="service">
-        <div class="service__body">
-          <h2>M&amp;E Software Development / Adaptation</h2>
-          <p>Leveraging platforms like DHIS2, Tableau, and Power BI, we transform raw data into actionable insights. From SurveyCTO and KoboCollect to specialized mobile apps, our solutions fit local contexts and global standards.</p>
-          <div class="badges">
-            <span class="badge">DHIS2</span>
-            <span class="badge">Tableau</span>
-            <span class="badge">Power BI</span>
-            <span class="badge">KoboCollect</span>
-            <span class="badge">SurveyCTO</span>
-          </div>
+    <!-- M&E Software -->
+    <section id="software" class="split">
+      <div class="split__image">
+        <img src="Images/services/me.webp" alt="Software adaptation and integration" />
+      </div>
+      <div class="split__content">
+        <h2>M&amp;E Software Development / Adaptation</h2>
+        <p>We configure, customize, and integrate platforms like DHIS2, Power BI, and Tableau—turning raw data into decision-ready insights. We also support digital data collection tools (Kobo, SurveyCTO) and workflow automation.</p>
+        <div class="tags">
+          <span class="tag">DHIS2</span>
+          <span class="tag">Power BI</span>
+          <span class="tag">Tableau</span>
+          <span class="tag">Kobo</span>
+          <span class="tag">SurveyCTO</span>
         </div>
-        <figure class="service__media">
-          <img src="Images/services/me.webp" alt="Software adaptation and integration" />
-        </figure>
+        <a class="cta" href="Contact.html">Plan a digital M&amp;E solution →</a>
       </div>
     </section>
 
-    <!-- 3.4 Learning & Operations Research -->
-    <section id="learning-ops" class="section container">
-      <div class="service service--rev">
-        <figure class="service__media">
-          <img src="Images/services/research3.jpg" alt="Operations research workshop" />
-        </figure>
-        <div class="service__body">
-          <h2>Learning &amp; Operations Research</h2>
-          <p>We co-create learning agendas, identify key questions, and apply rigorous methods for actionable insights. Using an adaptive cycle—plan, implement, reflect, refine—we help organizations stay agile in fast-changing contexts.</p>
-          <div class="badges">
-            <span class="badge">Learning Agendas</span>
-            <span class="badge">Adaptive Cycles</span>
-            <span class="badge">Applied Research</span>
-          </div>
+    <!-- Learning & Ops Research -->
+    <section id="learning-ops" class="split split--reverse">
+      <div class="split__content">
+        <h2>Learning &amp; Operations Research</h2>
+        <p>We co-create learning agendas and apply rigorous methods to answer key operational questions. Using adaptive cycles—plan, implement, reflect, refine—we help organizations remain agile in changing contexts.</p>
+        <div class="tags">
+          <span class="tag">Learning Agendas</span>
+          <span class="tag">Applied Research</span>
+          <span class="tag">Adaptive Cycles</span>
         </div>
+        <a class="cta" href="Contact.html">Design a learning agenda →</a>
+      </div>
+      <div class="split__image">
+        <img src="Images/services/research3.jpg" alt="Operations research workshop" />
       </div>
     </section>
 
-    <!-- 3.5 Baseline & Evaluation Assessments -->
-    <section id="baseline" class="section container">
-      <div class="service">
-        <div class="service__body">
-          <h2>Baseline &amp; Evaluation Assessments</h2>
-          <p>We conduct baselines, mid-term evaluations, and end-term impact assessments using methodologies aligned with international best practices—measuring effectiveness and communicating findings clearly.</p>
-          <div class="badges">
-            <span class="badge">Baseline</span>
-            <span class="badge">Mid-term</span>
-            <span class="badge">End-line</span>
-            <span class="badge">Impact</span>
-          </div>
+    <!-- Baseline & Evaluations -->
+    <section id="baseline" class="split">
+      <div class="split__image">
+        <img src="Images/services/graph.jfif" alt="Evaluation results and analytics" />
+      </div>
+      <div class="split__content">
+        <h2>Baseline &amp; Evaluation Assessments</h2>
+        <p>We conduct baselines, mid-term reviews, end-line evaluations, and impact assessments aligned with international best practices—producing clear findings and practical recommendations.</p>
+        <div class="tags">
+          <span class="tag">Baseline</span>
+          <span class="tag">Mid-term</span>
+          <span class="tag">End-line</span>
+          <span class="tag">Impact</span>
         </div>
-        <figure class="service__media">
-          <img src="Images/services/graph.jfif" alt="Evaluation results and analytics" />
-        </figure>
+        <a class="cta" href="Contact.html">Commission an evaluation →</a>
       </div>
     </section>
 
-    <!-- 3.6 Knowledge Management & Communication -->
-    <section id="knowledge" class="section container">
-      <div class="service service--rev">
-        <figure class="service__media">
-          <img src="Images/services/knowledge.jpg" alt="Knowledge sharing" />
-        </figure>
-        <div class="service__body">
-          <h2>Knowledge Management &amp; Communication</h2>
-          <p>We organize and disseminate knowledge products—success stories, abstracts, manuscripts, and strategic reports—and design communication strategies that amplify results and enable peer learning.</p>
-          <div class="badges">
-            <span class="badge">Success Stories</span>
-            <span class="badge">Briefs &amp; Reports</span>
-            <span class="badge">Comms Strategy</span>
-          </div>
+    <!-- Knowledge Management -->
+    <section id="knowledge" class="split split--reverse">
+      <div class="split__content">
+        <h2>Knowledge Management &amp; Communication</h2>
+        <p>We organize and disseminate learning through knowledge products—success stories, briefs, reports, and technical documentation—supported by communication strategies that amplify results and enable peer learning.</p>
+        <div class="tags">
+          <span class="tag">Success Stories</span>
+          <span class="tag">Briefs & Reports</span>
+          <span class="tag">KM Systems</span>
+          <span class="tag">Comms Strategy</span>
         </div>
+        <a class="cta" href="Contact.html">Strengthen knowledge sharing →</a>
+      </div>
+      <div class="split__image">
+        <img src="Images/services/knowledge.jpg" alt="Knowledge sharing session" />
       </div>
     </section>
 
-    <!-- 3.7 Capacity Building -->
-    <section id="capacity" class="section container">
-      <div class="service">
-        <div class="service__body">
-          <h2>Capacity Building</h2>
-          <p>Hands-on trainings in M&amp;E frameworks, results-based management, and tools such as DHIS2, SPSS, Stata, and Q-GIS—so teams can sustain, improve, and scale their M&amp;E systems over time.</p>
-          <div class="badges">
-            <span class="badge">DHIS2 / SPSS / Stata</span>
-            <span class="badge">Q-GIS</span>
-            <span class="badge">RBM</span>
-          </div>
+    <!-- Capacity Building -->
+    <section id="capacity" class="split">
+      <div class="split__image">
+        <img src="Images/services/building.jpg" alt="Training and capacity building" />
+      </div>
+      <div class="split__content">
+        <h2>Capacity Building</h2>
+        <p>Hands-on trainings in results-based management, M&amp;E frameworks, and tools such as DHIS2, SPSS, Stata, and Q-GIS—so teams can sustain, improve, and scale performance systems.</p>
+        <div class="tags">
+          <span class="tag">RBM</span>
+          <span class="tag">DHIS2</span>
+          <span class="tag">SPSS / Stata</span>
+          <span class="tag">Q-GIS</span>
         </div>
-        <figure class="service__media">
-          <img src="Images/services/building.jpg" alt="Training and capacity building" />
-        </figure>
+        <a class="cta" href="Contact.html">Book a training →</a>
       </div>
     </section>
 
-    <!-- CTA -->
+    <!-- CTA band -->
     <section class="cta-band" aria-label="Get in touch">
       <div class="wrap">
         <h2>Ready to move from data to decisive action?</h2>
@@ -570,13 +337,6 @@
     </section>
 
   </main>
-
-  <!-- Mobile-only bottom action bar -->
-  <div class="mobile-actions-bar" aria-label="Quick actions">
-    <a href="index.html">Home</a>
-    <a href="Services.html">Services</a>
-    <a href="Contact.html">Contact</a>
-  </div>
 
   <!-- FOOTER -->
   <footer class="footer">
@@ -594,12 +354,12 @@
         <div>
           <h4 class="footer-heading">Products and Services</h4>
           <ul class="footer-links">
-            <li><a href="Services.html#strategic-planning">Strategic Planning</a></li>
-            <li><a href="Services.html#me-systems">M&amp;E Systems</a></li>
-            <li><a href="Services.html#software">M&amp;E Software</a></li>
-            <li><a href="Services.html#learning-ops">Learning &amp; Ops Research</a></li>
-            <li><a href="Services.html#baseline">Baseline &amp; Evaluations</a></li>
-            <li><a href="Services.html#capacity">Capacity Building</a></li>
+            <li><a href="#strategic-planning">Strategic Planning</a></li>
+            <li><a href="#me-systems">M&amp;E Systems</a></li>
+            <li><a href="#software">M&amp;E Software</a></li>
+            <li><a href="#learning-ops">Learning &amp; Ops Research</a></li>
+            <li><a href="#baseline">Baseline &amp; Evaluations</a></li>
+            <li><a href="#capacity">Capacity Building</a></li>
           </ul>
         </div>
 
@@ -632,108 +392,6 @@
       </div>
     </div>
   </footer>
-
-  <script>
-    /* Mobile Nav + Drawer + Search (same behaviour as Home) */
-    const menuBtn = document.getElementById("mobileMenuBtn");
-    const closeBtn = document.getElementById("mobileCloseBtn");
-    const drawer = document.getElementById("mobileDrawer");
-    const backdrop = document.getElementById("backdrop");
-
-    const searchBtn = document.getElementById("mobileSearchBtn");
-    const searchPanel = document.getElementById("mobileSearch");
-    const searchCloseBtn = document.getElementById("mobileSearchCloseBtn");
-    const searchInput = document.getElementById("mobileSearchInput");
-
-    function lockScroll(lock){ document.body.style.overflow = lock ? "hidden" : ""; }
-
-    function openDrawer(){
-      drawer.classList.add("open");
-      drawer.setAttribute("aria-hidden","false");
-      menuBtn.setAttribute("aria-expanded","true");
-      backdrop.hidden = false;
-      lockScroll(true);
-    }
-    function closeDrawer(){
-      drawer.classList.remove("open");
-      drawer.setAttribute("aria-hidden","true");
-      menuBtn.setAttribute("aria-expanded","false");
-      backdrop.hidden = true;
-      lockScroll(false);
-    }
-    function openSearch(){
-      searchPanel.hidden = false;
-      if (drawer.classList.contains("open")) closeDrawer();
-      setTimeout(() => searchInput && searchInput.focus(), 0);
-    }
-    function closeSearch(){ searchPanel.hidden = true; }
-
-    menuBtn?.addEventListener("click", openDrawer);
-    closeBtn?.addEventListener("click", closeDrawer);
-
-    backdrop?.addEventListener("click", () => {
-      if (!searchPanel.hidden) closeSearch();
-      if (drawer.classList.contains("open")) closeDrawer();
-    });
-
-    searchBtn?.addEventListener("click", () => {
-      if (searchPanel.hidden) openSearch();
-      else closeSearch();
-    });
-    searchCloseBtn?.addEventListener("click", closeSearch);
-
-    window.addEventListener("keydown", (e) => {
-      if (e.key === "Escape"){
-        if (!searchPanel.hidden) closeSearch();
-        if (drawer.classList.contains("open")) closeDrawer();
-      }
-    });
-
-    // Close drawer when a drawer link is clicked
-    document.querySelectorAll("#mobileDrawer a").forEach(a => {
-      a.addEventListener("click", () => closeDrawer());
-    });
-
-    // Simple Enter-to-jump search for services page
-    const sectionMap = [
-      {keys:["strategic","strategy","planning","swot","risk"], id:"strategic-planning"},
-      {keys:["m&e","me systems","framework","indicator","dq","data quality","monitoring"], id:"me-systems"},
-      {keys:["dhis2","tableau","power bi","kobo","surveycto","software","integration"], id:"software"},
-      {keys:["learning","ops","operations","research","agenda"], id:"learning-ops"},
-      {keys:["baseline","evaluation","mid-term","end-line","impact"], id:"baseline"},
-      {keys:["knowledge","comms","communication","success stories","briefs","reports"], id:"knowledge"},
-      {keys:["capacity","training","rbm","spss","stata","qgis"], id:"capacity"},
-      {keys:["contact","email","call","whatsapp"], href:"Contact.html"}
-    ];
-
-    function goToSection(id){
-      const el = document.getElementById(id);
-      if (!el) return;
-      closeSearch();
-      el.scrollIntoView({behavior:"smooth", block:"start"});
-    }
-
-    searchInput?.addEventListener("keydown", (e) => {
-      if (e.key !== "Enter") return;
-      e.preventDefault();
-      const q = (searchInput.value || "").toLowerCase().trim();
-      if (!q) return;
-
-      for (const item of sectionMap){
-        if (item.href && item.keys.some(k => q.includes(k))){
-          window.location.href = item.href;
-          return;
-        }
-        if (item.id && item.keys.some(k => q.includes(k))){
-          goToSection(item.id);
-          return;
-        }
-      }
-
-      closeSearch();
-      alert("No results yet. Try: strategic, DHIS2, baseline, knowledge, capacity, contact.");
-    });
-  </script>
 
 </body>
 </html>
